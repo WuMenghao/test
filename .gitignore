@@ -1,0 +1,10 @@
+
+*.iml
+*.class
+tests/.idea/.name
+tests/.idea/compiler.xml
+tests/.idea/encodings.xml
+tests/.idea/misc.xml
+tests/.idea/uiDesigner.xml
+tests/.idea/workspace.xml
+tests/target/classes/beans.xml
