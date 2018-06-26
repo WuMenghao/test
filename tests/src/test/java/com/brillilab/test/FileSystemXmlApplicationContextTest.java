@@ -11,7 +11,7 @@ public class FileSystemXmlApplicationContextTest {
 
     @Test
     public void test01(){
-        FileSystemXmlApplicationContext context=new FileSystemXmlApplicationContext("D:\\workspace\\tests\\src\\main\\resources\\beans.xml");
+        FileSystemXmlApplicationContext context=new FileSystemXmlApplicationContext("D:\\GitHub\\test\\tests\\src\\main\\resources\\beans.xml");
         Bean beanTwo = (Bean)context.getBean("beanTwo");
         beanTwo.show();
         Assert.assertNotNull(beanTwo);
