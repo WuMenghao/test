@@ -8,3 +8,5 @@ tests/.idea/misc.xml
 tests/.idea/uiDesigner.xml
 tests/.idea/workspace.xml
 tests/target/classes/beans.xml
+tests/target/classes/beans1.xml
+tests/target/classes/spring/activemq.xml
