@@ -11,9 +11,29 @@ public class FileSystemXmlApplicationContextTest {
 
     @Test
     public void test01(){
+        //FileSystemXmlApplicationContext的初始化与对象创建
         FileSystemXmlApplicationContext context=new FileSystemXmlApplicationContext("D:\\GitHub\\test\\tests\\src\\main\\resources\\beans.xml");
-        Bean beanTwo = (Bean)context.getBean("beanTwo");
-        beanTwo.show();
-        Assert.assertNotNull(beanTwo);
+
+        BeanOne beanOne = (BeanOne) context.getBean("beanOne");
+        beanOne.showAll();
+
+        //FileSystemXmlApplicationContext的关闭
+        context.close();
+
+        Assert.assertNotNull(beanOne);
+    }
+
+    @Test
+    public void test02(){
+        //FileSystemXmlApplicationContext的初始化与对象创建
+        FileSystemXmlApplicationContext context=new FileSystemXmlApplicationContext("D:\\GitHub\\test\\tests\\src\\main\\resources\\beans1.xml");
+
+        BeanOne beanOne = (BeanOne) context.getBean("beanOne");
+        beanOne.showAll();
+
+        //FileSystemXmlApplicationContext的关闭
+        context.close();
+
+        Assert.assertNotNull(beanOne);
     }
 }

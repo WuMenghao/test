@@ -1,12 +1,17 @@
 package com.brillilab.bean;
 
 import com.brillilab.annotation.AutoWiredTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class BeanOne {
 
+    @Autowired
     @AutoWiredTest(name = "beanTwo")
     private Bean beanTwo;
 
+    @Autowired
     @AutoWiredTest(name = "beanThree")
     private Bean beanThree;
 
@@ -18,7 +23,6 @@ public class BeanOne {
     public void showAll(){
         beanTwo.show();
         beanThree.show();
-        bean.show();
     }
 
     public Bean getBeanTwo() {

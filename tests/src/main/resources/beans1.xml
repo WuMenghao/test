@@ -6,7 +6,5 @@
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd">
-    <bean id="beanOne" class="com.brillilab.bean.BeanOne" autowire="byName"/>
-    <bean id="beanTwo" class="com.brillilab.bean.BeanTwo"/>
-    <bean id="beanThree" class="com.brillilab.bean.BeanThree"/>
+    <context:component-scan base-package="com.brillilab.bean"/>
 </beans>
