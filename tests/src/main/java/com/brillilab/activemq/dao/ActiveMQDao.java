@@ -43,8 +43,10 @@ public class ActiveMQDao {
     public TextMessage receive(String destination){
         TextMessage textMessage = (TextMessage) queueTemplate.receive(destination);
         try{
-            System.out.println("从队列" + destination.toString() + "收到了消息：\t"
-                    + textMessage.getText());
+            if (textMessage!=null){
+                System.out.println("从队列" + queueTemplate.getDefaultDestination().toString()+ "收到了消息：\t"
+                        + textMessage.getText());
+            }
         } catch (JMSException e) {
             e.printStackTrace();
         }
