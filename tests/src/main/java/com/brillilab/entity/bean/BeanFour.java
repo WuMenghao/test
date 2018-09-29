@@ -1,4 +1,4 @@
-package com.brillilab.bean;
+package com.brillilab.entity.bean;
 
 public class BeanFour implements Bean{
 

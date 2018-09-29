@@ -1,10 +1,8 @@
 package com.brillilab.test;
 
-import com.brillilab.bean.Bean;
-import com.brillilab.bean.BeanOne;
+import com.brillilab.entity.bean.BeanOne;
 import org.junit.Assert;
 import org.junit.Test;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class FileSystemXmlApplicationContextTest {

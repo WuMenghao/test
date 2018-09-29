@@ -1,7 +1,7 @@
 package com.brillilab.test;
 
-import com.brillilab.bean.Bean2;
-import com.brillilab.bean.BeanFive;
+import com.brillilab.entity.bean.Bean2;
+import com.brillilab.entity.bean.BeanFive;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationHandler;

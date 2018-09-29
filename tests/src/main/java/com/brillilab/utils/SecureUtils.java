@@ -83,8 +83,6 @@ public class SecureUtils {
         return encodeHex(rsb);
     }
 
-    //TODO 摘要认证
-
     /**
      * 生成摘要
      * @param params
@@ -125,9 +123,34 @@ public class SecureUtils {
         return false;
     }
 
-    //TODO 签名认证
+    /**
+     * MD5WithRSA签名
+     * @param context
+     * @param base64PrivateKey
+     * @return
+     * @throws Exception
+     */
+    public static String MD5WithRSASign(String context,String base64PrivateKey) throws Exception {
+        Signature signature=Signature.getInstance("MD5withRSA");
+        signature.initSign(loadPrivateKey(base64PrivateKey));
+        signature.update(context.getBytes(UTF8));
+        return byte2Base64(signature.sign());
+    }
 
-
+    /**
+     * MD5WithRSA认证
+     * @param context
+     * @param sign
+     * @param base64PublicKey
+     * @return
+     * @throws Exception
+     */
+    public static boolean MD5WithRSASignVerify(String context,String sign,String base64PublicKey) throws Exception {
+        Signature signature=Signature.getInstance("MD5withRSA");
+        signature.initVerify(loadPublicKey(base64PublicKey));
+        signature.update(context.getBytes(UTF8));
+        return signature.verify(base642Byte(sign));
+    }
 
 /**
  * ###########################################################################
@@ -310,6 +333,37 @@ public class SecureUtils {
         byte[] bytes = cipher.doFinal(context.getBytes(UTF8));
         return byte2Base64(bytes);
     }
+
+    /**
+     * 使用RSA公钥解码
+     * @param context
+     * @param base64PublicKey
+     * @return
+     * @throws Exception
+     */
+    public static String RSAPublicDecrypt(String context,String base64PublicKey) throws Exception {
+        PublicKey publicKey=loadPublicKey(base64PublicKey);
+        Cipher cipher = Cipher.getInstance(RSA);
+        cipher.init(Cipher.DECRYPT_MODE,publicKey);
+        byte[] bytes = cipher.doFinal(base642Byte(context));
+        return new String(bytes,UTF8);
+    }
+
+    /**
+     * 使用RSA私钥加密
+     * @param context
+     * @param base64PrivateKey
+     * @return
+     * @throws Exception
+     */
+    public static String RSAPrivateEncrypt(String context,String base64PrivateKey) throws Exception {
+        PrivateKey privateKey = loadPrivateKey(base64PrivateKey);
+        Cipher cipher = Cipher.getInstance(RSA);
+        cipher.init(Cipher.ENCRYPT_MODE,privateKey);
+        byte[] bytes=cipher.doFinal(context.getBytes(UTF8));
+        return byte2Base64(bytes);
+    }
+
 
     /**
      * 使用RSA私钥解码

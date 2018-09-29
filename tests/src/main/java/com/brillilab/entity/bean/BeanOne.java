@@ -1,4 +1,4 @@
-package com.brillilab.bean;
+package com.brillilab.entity.bean;
 
 import com.brillilab.annotation.AutoWiredTest;
 import org.springframework.beans.factory.annotation.Autowired;

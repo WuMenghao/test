@@ -77,16 +77,22 @@ public class SecureUtilsTest {
         String context= SecureUtils.genKeyDES();
         //生成密钥
         SecureUtils.Base64KeyPair base64KeyPair = SecureUtils.genBase64RSAKeyPair();
-        //加密
-        String enc = SecureUtils.RSAPublicEncrypt(context, base64KeyPair.getBase64PublicKey());
-        //解密
-        String dec = SecureUtils.RSAPrivateDecrypt(enc, base64KeyPair.getBase64PrivateKey());
+        //公钥加密
+        String enc1 = SecureUtils.RSAPublicEncrypt(context, base64KeyPair.getBase64PublicKey());
+        //私钥解密
+        String dec1 = SecureUtils.RSAPrivateDecrypt(enc1, base64KeyPair.getBase64PrivateKey());
+        //私钥加密
+        String enc2=SecureUtils.RSAPrivateEncrypt(context,base64KeyPair.getBase64PrivateKey());
+        //公钥解密
+        String dec2=SecureUtils.RSAPublicDecrypt(enc2,base64KeyPair.getBase64PublicKey());
 
         System.out.println("context: \n"+context);
         System.out.println("\n publicKey: \n"+base64KeyPair.getBase64PublicKey());
         System.out.println("\n privateKey: \n"+base64KeyPair.getBase64PrivateKey());
-        System.out.println("\n enc: \n"+enc);
-        System.out.println("\n dec: \n"+dec);
+        System.out.println("\n enc1: \n"+enc1);
+        System.out.println("\n dec1: \n"+dec1);
+        System.out.println("\n enc2: \n"+enc2);
+        System.out.println("\n dec2: \n"+dec2);
     }
 
     @Test
@@ -109,5 +115,24 @@ public class SecureUtilsTest {
 
         System.out.println(result1);
         System.out.println(result2);
+    }
+
+    @Test
+    public void MD5WithRSATest() throws Exception {
+        String contect="哈哈哈";
+        SecureUtils.Base64KeyPair base64KeyPair=SecureUtils.genBase64RSAKeyPair();
+        String base64PrivateKey=base64KeyPair.getBase64PrivateKey();
+        String base64PublicKey=base64KeyPair.getBase64PublicKey();
+
+        String sign=SecureUtils.MD5WithRSASign(contect,base64PrivateKey);
+
+        boolean result=SecureUtils.MD5WithRSASignVerify(contect,sign,base64PublicKey);
+
+        System.out.println("publicKey:"+base64PublicKey+"\t\n");
+        System.out.println("privateKey:"+base64PrivateKey+"\t\n");
+        System.out.println("contextBefore:"+contect+"\t\n");
+        System.out.println("contextAfter:"+contect+"\t\n");
+        System.out.println("result:"+result);
+
     }
 }

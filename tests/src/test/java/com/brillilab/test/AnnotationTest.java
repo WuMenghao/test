@@ -1,7 +1,7 @@
 package com.brillilab.test;
 
 import com.brillilab.annotation.SimpleClassPathXMLApplicationContext;
-import com.brillilab.bean.BeanOne;
+import com.brillilab.entity.bean.BeanOne;
 import org.junit.Test;
 
 public class AnnotationTest {
