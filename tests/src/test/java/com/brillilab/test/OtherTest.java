@@ -1,11 +1,18 @@
 package com.brillilab.test;
 
 import com.brillilab.utils.QRCodeEncoderUtils;
+import com.brillilab.utils.SecureUtils;
+import org.apache.commons.codec.digest.Md5Crypt;
+import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
@@ -77,5 +84,37 @@ public class OtherTest {
     @Test
     public void test06(){
         System.out.println(1 & 2);
+    }
+
+
+    @Test
+    public void test07(){
+        Assert.assertEquals(Md5Crypt.md5Crypt("123456".getBytes()),Md5Crypt.md5Crypt("123456".getBytes()));
+    }
+
+    @Test
+    public void test08() throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        Assert.assertEquals(SecureUtils.MD5Encrypt("123456"),SecureUtils.MD5Encrypt("123456"));
+    }
+
+    @Test
+    public void test09(){
+        System.out.println(1000 << 2);
+    }
+
+    @Test
+    public void test10(){
+        Integer iv = 100;
+        long lv = iv;
+        System.out.println(lv);
+    }
+    
+    @Test
+    public void test11(){
+        BigDecimal v1=new BigDecimal(1);
+        BigDecimal v2=new BigDecimal(-5);
+        BigDecimal add=v1.add(v2);
+        System.out.println(add);
+        System.out.println(v2.compareTo(new BigDecimal(0)));
     }
 }
