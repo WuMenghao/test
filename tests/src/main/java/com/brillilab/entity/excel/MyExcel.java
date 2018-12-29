@@ -12,4 +12,6 @@ public class MyExcel extends BaseRowModel {
     private Integer num;
     @ExcelProperty(index=2)
     private Integer total;
+    @ExcelProperty(index=3)
+    private String text;
 }
