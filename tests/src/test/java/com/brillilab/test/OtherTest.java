@@ -13,6 +13,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
@@ -116,5 +117,16 @@ public class OtherTest {
         BigDecimal add=v1.add(v2);
         System.out.println(add);
         System.out.println(v2.compareTo(new BigDecimal(0)));
+    }
+
+    @Test
+    public void test12(){
+        HashSet<String> strings=new HashSet<>();
+        strings.add("1");
+        strings.add("1");
+        strings.add("55555");
+        strings.add("55555");
+        System.out.println(strings);
+        System.out.println(strings.toString().replace("[","").replace("]",""));
     }
 }
