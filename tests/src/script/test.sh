@@ -1,8 +1,8 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 #auth WuMenghao
 #time 2019/1/5
 
-RootPath = "D:/"
+ROOT_PATH = "D:/"
 
-echo $RootPath
+echo ${ROOTPATH}

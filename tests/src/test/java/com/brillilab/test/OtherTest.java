@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.DoubleAccumulator;
 
 public class OtherTest {
@@ -128,5 +129,44 @@ public class OtherTest {
         strings.add("55555");
         System.out.println(strings);
         System.out.println(strings.toString().replace("[","").replace("]",""));
+    }
+
+    @Test
+    public void test13(){
+        String regEx="[`~!@#$%^&*()\\-+={}':;,\\[\\].<>/?￥%…（）_+|【】‘；：”“’。，、？\\s]";
+        String value = "ssde-s12121";
+        System.out.println(value.replaceAll(regEx,"?"));
+    }
+
+    @Test
+    public void test14(){
+        BigDecimal one = BigDecimal.valueOf(1);
+        BigDecimal tree = BigDecimal.valueOf(3);
+        BigDecimal oneByTree = BigDecimal.valueOf(1.0/3.0).setScale(2,RoundingMode.HALF_UP);
+        BigDecimal divide=one.divide(tree,2,RoundingMode.HALF_UP);
+        System.out.println(divide.scale());
+        System.out.println(divide);
+        System.out.println(divide.doubleValue());
+        System.out.println(one);
+        System.out.println(tree);
+        System.out.println(oneByTree.doubleValue());
+    }
+
+    @Test
+    public void test15() throws InterruptedException {
+        AtomicInteger zero=new AtomicInteger(0);
+
+        for (int i=0; i < 10; i++) {
+            new Thread(() ->{
+                int value;
+                synchronized (this){
+                    value = zero.incrementAndGet();
+                    System.out.printf("%s %s \n",value,Thread.currentThread().getName());
+                }
+            },"thread-"+i).start();
+        }
+
+        while (zero.intValue()<10);
+
     }
 }
