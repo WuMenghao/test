@@ -5,6 +5,8 @@ import org.junit.Test;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 /**
  *  NIO的测试
@@ -55,18 +57,18 @@ public class NIOTest {
         long begian = System.currentTimeMillis();
 
         //创建流
-        FileInputStream inputStream=new FileInputStream("D:\\data\\files\\ideaIU-2018.1.2.exe");
-        FileOutputStream outputStream=new FileOutputStream("D:\\data\\files\\ideaIU-2018.1.2-copy.exe");
+        FileInputStream inputStream=new FileInputStream("D:\\data\\files\\windows_7_ultimate_x64_2018.iso");
+        FileOutputStream outputStream=new FileOutputStream("D:\\data\\files\\windows_7_ultimate_x64_2018-copy.iso");
 
         //获取Channel
         FileChannel channelIn=inputStream.getChannel();
         FileChannel channelOut = outputStream.getChannel();
 
-        //创建Buffer
-        ByteBuffer buffer = ByteBuffer.allocate(1024);
+        //创建Buffer 1M
+        ByteBuffer buffer = ByteBuffer.allocate(1024*1024);
 
         //读入
-        int i=0;
+        long i=0;
         while (channelIn.read(buffer)!=-1){
             //重设Buffer
             buffer.flip();
@@ -82,8 +84,9 @@ public class NIOTest {
 
         long end = System.currentTimeMillis();
 
-        System.out.println("一共传送数据："+i/1000+"KB");
-        System.out.println("传输文件所用时间："+(end-begian)+"sm");
+        NumberFormat nf=NumberFormat.getNumberInstance(Locale.CHINA);
+        System.out.println("一共传送数据："+nf.format(i/Math.pow(1024,2))+"MB");
+        System.out.println("传输文件所用时间："+(end-begian)/1000+"s");
     }
 
     /**
