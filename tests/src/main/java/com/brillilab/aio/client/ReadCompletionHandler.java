@@ -22,6 +22,7 @@ public class ReadCompletionHandler implements CompletionHandler<Integer,ByteBuff
         if(result!=-1){
             buffer.flip();
             byte[] bytes=new byte[buffer.remaining()];
+            buffer.get(bytes);
             buffer.clear();
             try {
                 String sreq=new String(bytes,"UTF-8");

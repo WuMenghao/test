@@ -6,6 +6,9 @@ import org.junit.Test;
 
 import java.util.Scanner;
 
+/**
+ * AIO Netty编程
+ */
 public class AIOTest {
 
     @Test
@@ -43,5 +46,10 @@ public class AIOTest {
             String str = sc.next();
             System.out.println(str);
         }
+    }
+
+    @Test
+    public void nettyTest(){
+
     }
 }

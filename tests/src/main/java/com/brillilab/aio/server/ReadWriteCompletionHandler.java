@@ -19,22 +19,24 @@ public class ReadWriteCompletionHandler implements CompletionHandler<Integer,Byt
     @Override
     public void completed(Integer result,ByteBuffer buffer) {
         //判断是否读取完
-        boolean hasRemaining=buffer.hasRemaining();
+        if(buffer.hasRemaining()){
 
-        //进行写操作
-        buffer.flip();
-        byte[] body=new byte[buffer.remaining()];
-        buffer.get(body,0,result);
-        try {
-            String sreq=new String(body,"UTF-8");
-            System.out.print(sreq.trim()+"\n");
-            doWrite(sreq.trim()+"\n");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            //进行写操作
+            buffer.flip();
+            byte[] body=new byte[buffer.remaining()];
+            buffer.get(body,0,result);
+            try {
+                String sreq=new String(body,"UTF-8");
+                System.out.print(sreq.trim()+"\n");
+                doWrite(sreq.trim()+"\n");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         buffer.clear();
         channel.read(buffer,buffer,this);
+
         //如果buffer是满的，继续读取写出，否则关闭输入输出
 //        if(!hasRemaining){
 //            buffer.clear();
