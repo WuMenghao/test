@@ -2,6 +2,8 @@ package com.brillilab.test;
 
 import com.brillilab.aio.client.AsyncClientHandler;
 import com.brillilab.aio.server.AsyncServerHandler;
+import com.brillilab.netty.HelloClient;
+import com.brillilab.netty.HelloService;
 import org.junit.Test;
 
 import java.util.Scanner;
@@ -49,7 +51,21 @@ public class AIOTest {
     }
 
     @Test
-    public void nettyTest(){
+    public void nettyServer(){
+        HelloService helloService=new HelloService(8000);
+        helloService.run();
+        while (true){
+            try {
+                Thread.sleep(1000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    @Test
+    public void nettyClient(){
+        HelloClient helloClient=new HelloClient("localhost",8000);
+        helloClient.connect();
     }
 }

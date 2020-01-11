@@ -329,4 +329,15 @@ public class OtherTest {
 
     }
 
+    @Test
+    public void encoding() throws UnsupportedEncodingException {
+        String s=new String("æ¨çæéå·²è¢«ä¿®æ¹ï¼è¯·å·æ°ç¨æ·ä¿¡æ¯ï¼".getBytes("ISO8859-1"),"UTF-8");
+        System.out.println(s);
+    }
+
+    @Test
+    public void test20(){
+        System.out.println(System.currentTimeMillis());
+        System.out.println((6307200000000L-1570502090449L)/(1000*3600*24));
+    }
 }

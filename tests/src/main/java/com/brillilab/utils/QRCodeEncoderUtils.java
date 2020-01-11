@@ -1,55 +1,43 @@
 package com.brillilab.utils;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.*;
 
-import javax.imageio.ImageIO;
-import com.swetake.util.Qrcode;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
+import java.io.File;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class QRCodeEncoderUtils {
     public static void encoder(String url) throws Exception{
-        Qrcode qrcode = new Qrcode();
-        qrcode.setQrcodeErrorCorrect('M');
-        qrcode.setQrcodeEncodeMode('B');
-        qrcode.setQrcodeVersion(9);
+        int width = 300;
+        int height = 300;
+        String format = "png";
+        String content = "https://www.csdn.net";
 
-		/*FileImageInputStream fileOut = new FileImageInputStream(new File("/home/fy_iipay/a.jpg"));
-		byte[] buf = new byte[1024];
-	      int numBytesRead = 0;
-	      ByteArrayOutputStream output = new ByteArrayOutputStream();
-	      while ((numBytesRead = fileOut.read(buf)) != -1) {
-	      output.write(buf, 0, numBytesRead);
-	      }*/
-        byte[] d = url.getBytes("utf-8");
-        BufferedImage bi = new BufferedImage(165, 165, BufferedImage.TYPE_INT_RGB);
-        // createGraphics
-        Graphics2D g = bi.createGraphics();
-        // set background
-        g.setBackground(Color.WHITE);
-        g.clearRect(0, 0, 165, 165);
-        g.setColor(Color.BLACK);
+        //定义二维码参数
+        Map<Object,Object> map = new HashMap<>();
+        map.put(EncodeHintType.CHARACTER_SET,"utf-8");
+        map.put(EncodeHintType.ERROR_CORRECTION,ErrorCorrectionLevel.M);
+        map.put(EncodeHintType.MARGIN,2);
 
-        if (d.length > 0 && d.length < 500) {
-            boolean[][] b = qrcode.calQrcode(d);
-            for (int i = 0; i < b.length; i++) {
-                for (int j = 0; j < b.length; j++) {
-                    if (b[j][i]) {
-                        g.fillRect(j * 3 + 2, i * 3 + 2, 3, 3);
-                    }
-                }
-            }
+        try {
+            BitMatrix encode = new MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height);
+
+            Path file = new File("C:/code/img.png").toPath();
+
+            MatrixToImageWriter.writeToPath(encode,format,file);
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
-        g.dispose();
-        bi.flush();
-        String FilePath = "D:/fy_insure/weitu.jpg";
-        File f = new File(FilePath);
-        if (!f.exists()){
-            f.mkdirs();
-        }
-        ImageIO.write(bi, "jpg", f);
     }
 
 }
