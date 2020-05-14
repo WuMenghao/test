@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <context:component-scan base-package="com.brillilab.httpclient"/>
+
+    <context:property-placeholder location="classpath:properties/httpclient.properties"/>
+
+    <!-- 连接管理器 -->
+    <bean id="httpClientConnectionManager" class="org.apache.http.impl.conn.PoolingHttpClientConnectionManager">
+        <property name="defaultMaxPerRoute" value="${http.defaultMaxPerRoute}"/>
+        <property name="maxTotal" value="${http.maxTotal}"/>
+    </bean>
+
+    <!-- HttpClientBuilder HttpClient构建器 -->
+    <bean id="httpClientBuilder" class="org.apache.http.impl.client.HttpClientBuilder">
+        <property name="connectionManager" ref="httpClientConnectionManager"/>
+    </bean>
+
+    <!-- HttpClient对象 由HttpClientBuilder生产 -->
+    <bean id="httpClient" class="org.apache.http.impl.client.CloseableHttpClient" factory-bean="httpClientBuilder" factory-method="build" scope="prototype"/>
+
+    <!-- RequestConfig.Builder RequestConfig构建器 -->
+    <bean id="requestConfigBuilder" class="org.apache.http.client.config.RequestConfig.Builder">
+        <property name="connectTimeout" value="${http.connectTimeout}"/>
+        <property name="connectionRequestTimeout" value="${http.connectionRequestTimeout}"/>
+        <property name="socketTimeout" value="${http.socketTimeout}"/>
+        <property name="staleConnectionCheckEnabled" value="${http.staleConnectionCheckEnabled}"/>
+    </bean>
+
+    <!-- RequestConfig对象 -->
+    <bean id="requestConfig" class="org.apache.http.client.config.RequestConfig" factory-bean="requestConfigBuilder" factory-method="build"/>
+</beans>
