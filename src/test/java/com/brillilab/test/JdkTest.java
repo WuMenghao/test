@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -61,6 +62,69 @@ public class JdkTest {
         System.out.printf("LocalDateTime.now().format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm:ss\")): %s \n\t",
                 LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
 
+
+    }
+
+    @Test
+    public void arrayTest(){
+        int[] intArr = new int[3];
+        String[] StrArr = new String[3];
+        System.out.printf("int[] intArr = new int[3] : %s \t\n", Arrays.toString(intArr));
+        System.out.printf("int[] intArr = new int[3] : %s \t\n", intArr);
+        System.out.printf("String[] StrArr = new String[3] : %s \t\n", Arrays.toString(StrArr));
+        System.out.printf("String[] StrArr = new String[3] : %s \t\n", StrArr);
+    }
+
+    @Test
+    public void objectTest() throws CloneNotSupportedException {
+        //在 Java 语言中，变量不能被重写。
+        class A {
+            public int x = 0;
+            public  int y = 0;
+            public void m() {
+                System.out.print("A");
+            }
+        }
+        class B extends A {
+            public int x = 1;
+            public  int y = 2;
+            public void m() {
+                System.out.print("B");
+            }
+        }
+        A myClass = new B();
+        System.out.print(myClass.x);
+        System.out.print(myClass.y);
+        myClass.m();
+
+        //clone //深拷贝 嵌套对象需要手动进行
+        class CloneTest implements Cloneable {
+            int num;
+            @Override
+            protected Object clone() throws CloneNotSupportedException {
+                return super.clone();
+            }
+        }
+        CloneTest ct = new CloneTest();
+        ct.num = 666;
+        CloneTest ct2 = (CloneTest) ct.clone();
+        System.out.printf("clone: ct.num %s \t\n",ct.num);
+        System.out.printf("clone: ct2.num %s \t\n",ct2.num);
+
+        // 创建成员内部类
+        class Outer {
+            public Outer() {
+                System.out.println("Outer Class.");
+            }
+            class Inner {
+                public void sayHi() {
+                    System.out.println("Hi, Inner.");
+                }
+            }
+        }
+        Outer out = new Outer();
+        Outer.Inner inner = out.new Inner();
+        inner.sayHi();
 
     }
 }

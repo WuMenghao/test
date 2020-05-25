@@ -12,6 +12,10 @@ import org.junit.Test;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.text.ParseException;
@@ -341,9 +345,29 @@ public class OtherTest {
         System.out.println((6307200000000L-1570502090449L)/(1000*3600*24));
     }
 
+    //base64
     @Test
     public void test21() throws UnsupportedEncodingException {
         byte[] decode = Base64.getDecoder().decode("eyJjb2RlIjoxMDAwLCJtZXNzYWdlIjoi5pyq55+l6ZSZ6K+vISJ9");
         System.out.println(new String(decode,"utf-8"));
+    }
+
+    //查询mac地址
+    @Test
+    public void getRemoteMac() throws UnknownHostException, SocketException {
+        InetAddress inetAddress = InetAddress.getByName("39.156.69.79");
+        byte[] mac = NetworkInterface.getByInetAddress(inetAddress).getHardwareAddress();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < mac.length; i++) {
+            if (i != 0) {
+                sb.append("-");
+            }
+            // mac[i] & 0xFF 是为了把byte转化为正整数
+            String s = Integer.toHexString(mac[i] & 0xFF);
+            sb.append(s.length() == 1 ? 0 + s : s);
+        }
+        // 把字符串所有小写字母改为大写成为正规的mac地址并返回
+        String macAddress = sb.toString().trim().toUpperCase();
+        System.out.println(macAddress);
     }
 }
