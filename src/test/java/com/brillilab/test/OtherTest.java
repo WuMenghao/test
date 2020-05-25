@@ -27,6 +27,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.DoubleAccumulator;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -369,5 +371,48 @@ public class OtherTest {
         // 把字符串所有小写字母改为大写成为正规的mac地址并返回
         String macAddress = sb.toString().trim().toUpperCase();
         System.out.println(macAddress);
+    }
+
+    //reentrantLock测试
+    @Test
+    public void reentrantLock() throws InterruptedException {
+        ReentrantLock reentrantLock = new ReentrantLock();
+        Condition condition = reentrantLock.newCondition();
+
+        new Thread(() ->{
+            try {
+                //获取锁
+                reentrantLock.lock();
+                //线程等待 当前线程只有获取了锁才能调用该方法，调用都当前线程将释放锁
+//            condition.await();
+                condition.awaitUninterruptibly();
+
+                System.out.printf("锁队列剩余: %s, 该线程被唤醒，继续执行! \t\n",reentrantLock.getQueueLength());
+
+            }finally {
+                reentrantLock.unlock();
+            }
+
+        }).start();
+
+        Thread.sleep(100);
+
+        new Thread(() ->{
+            try {
+                reentrantLock.lock();
+                //随机唤醒一个该condition下的线程获得锁继续执行
+                condition.signal();
+                //唤醒该condition下面的所有线程进行锁竞争，获取锁的线程继续操作（公平）
+                condition.signalAll();
+
+                System.out.printf("锁队列剩余: %s, 开始唤醒! \t\n",reentrantLock.getQueueLength());
+
+            } finally {
+                reentrantLock.unlock();
+            }
+
+        }).start();
+
+        System.out.printf("锁队列剩余: %s! \t\n",reentrantLock.getQueueLength());
     }
 }

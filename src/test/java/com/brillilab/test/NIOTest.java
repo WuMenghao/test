@@ -190,7 +190,7 @@ public class NIOTest {
     }
 
     /**
-     * RandomAccessFile
+     * RandomAccessFile 使用多线程分配复制并合并
      */
     @Test
     public void randomAccessFileUse() throws ExecutionException, InterruptedException {
@@ -271,7 +271,14 @@ public class NIOTest {
             });
             tempFiles.add(result.get());
         }
-        executor.awaitTermination(100, TimeUnit.SECONDS);
+        while (merger.flag){
+            executor.shutdown();
+            if (executor.isTerminated()){
+                System.out.println("end!");
+                break;
+            }
+        }
+//        executor.awaitTermination(100, TimeUnit.SECONDS);
 //        System.out.println("end!");
     }
 
@@ -281,6 +288,7 @@ public class NIOTest {
     class FileListMergeObserver implements Observer{
 
         int total;
+        public volatile boolean flag;
 
         public FileListMergeObserver(ObservableFileList observable, int total) {
             observable.addObserver(this);
@@ -311,8 +319,9 @@ public class NIOTest {
                         out.close();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    }finally {
+                        flag=true;
                     }
-                    System.out.println("end!");
                 }
             }
         }
