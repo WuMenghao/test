@@ -2,6 +2,10 @@ package com.brillilab.test;
 
 import org.junit.Test;
 
+import java.lang.ref.PhantomReference;
+import java.lang.ref.ReferenceQueue;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -126,5 +130,22 @@ public class JdkTest {
         Outer.Inner inner = out.new Inner();
         inner.sayHi();
 
+    }
+
+    /**
+     * 强引用，弱引用，软引用，虚引用
+     */
+    @Test
+    public void reference(){
+        ReferenceQueue queue = new ReferenceQueue();
+        String str = new String("sr");
+        WeakReference<String> weakReference = new WeakReference<>(new String("wr"));
+        SoftReference<String> softReference = new SoftReference<>(new String("sr"));
+        PhantomReference<String> phantomReference = new PhantomReference<String>(new String("pr"), queue);
+        System.gc();
+        System.out.println(str);
+        System.out.println(weakReference.get());
+        System.out.println(softReference.get());
+        System.out.println(phantomReference.get());
     }
 }
