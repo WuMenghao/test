@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.concurrent.*;
 
 public class JdkTest {
 
@@ -147,5 +148,51 @@ public class JdkTest {
         System.out.println(weakReference.get());
         System.out.println(softReference.get());
         System.out.println(phantomReference.get());
+    }
+
+    @Test
+    public void executor01(){
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                5, 20,60L, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(100),new ThreadPoolExecutor.AbortPolicy());
+        for (int i = 0; i<120 ; i++){
+            final int j = i;
+            executor.submit(() -> {
+                System.out.println(j);
+            });
+        }
+        executor.shutdown();
+    }
+
+    @Test
+    public void countDownLatch() throws InterruptedException {
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(
+                5, 20,60L, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(30),new ThreadPoolExecutor.CallerRunsPolicy());
+        int worker = 3;
+        CountDownLatch countDownLatch = new CountDownLatch(worker);
+        executor.submit(() -> {
+            System.out.println("D is waiting for other three threads");
+            try {
+                countDownLatch.await();
+                System.out.println("All done, D starts working");
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        for (char threadName='A'; threadName <= 'C'; threadName++) {
+            final String tN = String.valueOf(threadName);
+            executor.submit(() -> {
+                System.out.println(tN + "is working");
+                try {
+                    Thread.sleep(100);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                System.out.println(tN + "finished");
+                countDownLatch.countDown();
+            });
+        }
+        Thread.sleep(1000L);
     }
 }
