@@ -154,17 +154,21 @@ public class JdkTest {
     }
 
     @Test
-    public void executor01(){
+    public void executor01() throws InterruptedException {
         ThreadPoolExecutor executor = new ThreadPoolExecutor(
-                5, 20,60L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(100),new ThreadPoolExecutor.AbortPolicy());
+                1, 1,60L, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(),new ThreadPoolExecutor.AbortPolicy());
         for (int i = 0; i<120 ; i++){
             final int j = i;
             executor.submit(() -> {
                 System.out.println(j);
+                if (j==119){
+                    executor.shutdown();
+                }
             });
         }
-        executor.shutdown();
+        boolean b = executor.awaitTermination(10, TimeUnit.SECONDS);
+        System.out.println(b);
     }
 
     @Test
@@ -196,6 +200,9 @@ public class JdkTest {
                 countDownLatch.countDown();
             });
         }
-        Thread.sleep(1000L);
+        if(!executor.awaitTermination(10, TimeUnit.SECONDS)){
+            System.out.println(executor.isTerminated());
+            executor.shutdown();
+        }
     }
 }
