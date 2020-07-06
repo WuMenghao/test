@@ -21,10 +21,7 @@ import java.security.Provider;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.DoubleAccumulator;
 import java.util.concurrent.locks.Condition;
@@ -329,9 +326,7 @@ public class OtherTest {
         service.execute(producer);
         service.execute(consumer);
 
-        while (true){
-            Thread.sleep(10000L);
-        }
+        service.awaitTermination(10, TimeUnit.SECONDS);
 
     }
 

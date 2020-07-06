@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Consumer implements Runnable {
 
-    private static final long SLEEP_TIME=1000;
+    private static final long SLEEP_TIME=1;
     private BlockingQueue queue;
 
     public Consumer(BlockingQueue queue) {

@@ -8,7 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Producer implements Runnable {
 
     private volatile boolean isRunning=true;
-    private static final long SLEEP_TIME=1000;
+    private static final long SLEEP_TIME=1;
     private BlockingQueue queue;
     private AtomicInteger index=new AtomicInteger(0);
 
@@ -23,6 +23,9 @@ public class Producer implements Runnable {
     public void run() {
         try {
             while (isRunning) {
+                if (index.get() == (data.size()-1)){
+                    stop();
+                }
                 queue.offer(data.get(index.get()),2L,TimeUnit.SECONDS);
                 index.incrementAndGet();
                 Thread.sleep(SLEEP_TIME);
