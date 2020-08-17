@@ -9,7 +9,7 @@ public class RedisUtils {
 
     static {
         new GenericObjectPoolConfig();
-        
+
     }
 
 }
