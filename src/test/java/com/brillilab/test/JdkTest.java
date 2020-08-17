@@ -1,5 +1,6 @@
 package com.brillilab.test;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.ref.PhantomReference;
@@ -17,6 +18,17 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 public class JdkTest {
+
+    private volatile boolean flag = true;
+
+    private ThreadPoolExecutor executor;
+
+    @Before
+    public void initExcutor(){
+         executor = new ThreadPoolExecutor(
+                5, 20,60L, TimeUnit.SECONDS,
+                new LinkedBlockingQueue<>(30),new ThreadPoolExecutor.CallerRunsPolicy());
+    }
 
     @Test
     public void methodTest(){
@@ -204,5 +216,30 @@ public class JdkTest {
             System.out.println(executor.isTerminated());
             executor.shutdown();
         }
+    }
+
+    @Test
+    public void volatileTest() throws InterruptedException {
+        executor.submit(() -> {
+            while (flag){
+                System.out.println(flag);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        });
+        executor.submit(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            flag = false;
+            System.out.println("set flag == false");
+        });
+        executor.awaitTermination(5,TimeUnit.SECONDS);
     }
 }
