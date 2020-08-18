@@ -9,9 +9,7 @@ import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.*;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -241,5 +239,27 @@ public class JdkTest {
             System.out.println("set flag == false");
         });
         executor.awaitTermination(5,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void testInitMap(){
+        HashMap<String, String> map = new HashMap<>();
+        map.put("1","哈哈哈");
+        map.put("2","哈哈哈");
+        map.put("3","哈哈哈");
+
+        // 错误的删除方法 java.util.ConcurrentModificationException
+        //  map.forEach((k,v) -> {
+        //   map.remove(k);
+        // });
+
+        // 正确的删除方法 modCount++
+        Set<Map.Entry<String, String>> entries = map.entrySet();
+        Iterator<Map.Entry<String, String>> iterator = entries.iterator();
+        while (iterator.hasNext()){
+            iterator.next();
+            iterator.remove();;
+        }
+        System.out.println(map);
     }
 }
