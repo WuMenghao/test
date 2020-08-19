@@ -253,7 +253,7 @@ public class JdkTest {
         Spliterator<Map.Entry<String, String>> spliterator = entries1.spliterator();
         spliterator.forEachRemaining(entity -> System.out.printf("key : %s , value : %s \n",entity.getKey(),entity.getValue()));
 
-        // 1.也是正确的删除方式
+        // 只能移除set中的元素
         spliterator.forEachRemaining(entries1::remove);
 
 
