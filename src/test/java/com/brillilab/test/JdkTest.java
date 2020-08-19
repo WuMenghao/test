@@ -252,11 +252,14 @@ public class JdkTest {
         Set<Map.Entry<String, String>> entries1 = map.entrySet();
         Spliterator<Map.Entry<String, String>> spliterator = entries1.spliterator();
         spliterator.forEachRemaining(entity -> {
+            if (entity.getKey() .equals("2")){
+                entity.setValue("我修改了2");
+            }
             System.out.printf("key : %s , value : %s \n",entity.getKey(),entity.getValue());
             //1.错误的删除方法 java.util.ConcurrentModificationException
             //entries1.remove(entity);
         });
-
+        System.out.println(map);
 
         // 2.错误的删除方法 java.util.ConcurrentModificationException
         //  map.forEach((k,v) -> {
