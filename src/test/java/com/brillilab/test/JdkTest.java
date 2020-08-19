@@ -248,6 +248,12 @@ public class JdkTest {
         map.put("2","哈哈哈");
         map.put("3","哈哈哈");
 
+        // 并行迭代去 Collection都有
+        Set<Map.Entry<String, String>> entries1 = map.entrySet();
+        Spliterator<Map.Entry<String, String>> spliterator = entries1.spliterator();
+        spliterator.forEachRemaining(entity -> System.out.printf("key : %s , value : %s \n",entity.getKey(),entity.getValue()));
+
+
         // 错误的删除方法 java.util.ConcurrentModificationException
         //  map.forEach((k,v) -> {
         //   map.remove(k);
