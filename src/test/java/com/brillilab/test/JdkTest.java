@@ -244,12 +244,33 @@ public class JdkTest {
     @Test
     public void testInitMap(){
         HashMap<String, String> map = new HashMap<>();
-        map.put("1","哈哈哈");
-        map.put("2","哈哈哈");
-        map.put("3","哈哈哈");
+        map.put("1","哈哈哈1");
+        map.put("2","哈哈哈2");
+        map.put("3","哈哈哈3");
 
-        // 并行迭代去 Collection都有
+        // keySet视图与map是绑定的，其改变也会引起map的改变
+        Set<String> keySet = map.keySet();
+        Iterator<String> keyIterator = keySet.iterator();
+        while (keyIterator.hasNext()){
+            if (keyIterator.next().equals("1")){
+                keyIterator.remove();
+            }
+        }
+        System.out.println(map);
+
+        // values视图与map是绑定的，其改变也会引起map的改变
+        Collection<String> values = map.values();
+        Iterator<String> valueIterator = values.iterator();
+        while (valueIterator.hasNext()){
+            if (valueIterator.next().equals("哈哈哈3")){
+                valueIterator.remove();
+            }
+        }
+        System.out.println(map);
+
+        // entrySet视图与map是绑定的，其改变也会引起map的改变
         Set<Map.Entry<String, String>> entries1 = map.entrySet();
+        // 并行迭代去 Collection都有
         Spliterator<Map.Entry<String, String>> spliterator = entries1.spliterator();
         spliterator.forEachRemaining(entity -> {
             if (entity.getKey() .equals("2")){
