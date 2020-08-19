@@ -251,10 +251,11 @@ public class JdkTest {
         // 并行迭代去 Collection都有
         Set<Map.Entry<String, String>> entries1 = map.entrySet();
         Spliterator<Map.Entry<String, String>> spliterator = entries1.spliterator();
-        spliterator.forEachRemaining(entity -> System.out.printf("key : %s , value : %s \n",entity.getKey(),entity.getValue()));
-
-        // 只能移除set中的元素
-        spliterator.forEachRemaining(entries1::remove);
+        spliterator.forEachRemaining(entity -> {
+            System.out.printf("key : %s , value : %s \n",entity.getKey(),entity.getValue());
+            //1.错误的删除方法 java.util.ConcurrentModificationException
+            //entries1.remove(entity);
+        });
 
 
         // 2.错误的删除方法 java.util.ConcurrentModificationException
