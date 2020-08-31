@@ -45,11 +45,11 @@ public class RedisTests {
             String lockVersion = DistributedLock.lock(LOCK);
             System.out.println("Lock two ok");
             try {
-                Thread.sleep(10000);
+                Thread.sleep(30000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            boolean b = DistributedLock.unLock(LOCK, lockVersion);
+            boolean b = DistributedLock.unLock(LOCK, lockVersion); //超时 false
             System.out.printf("Unlock two result : %s \n",b);
         });
 
