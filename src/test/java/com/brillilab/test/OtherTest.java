@@ -20,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Provider;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -409,5 +410,25 @@ public class OtherTest {
         }).start();
 
         System.out.printf("锁队列剩余: %s! \t\n",reentrantLock.getQueueLength());
+    }
+
+    @Test
+    public void localDateTimeAdd(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime fiveHourBefore = now.plusHours(-5L);
+        System.out.println(fiveHourBefore);
+    }
+
+    @Test
+    public void substring(){
+        String str =  "123456";
+        System.out.println(str.substring(4,5));
+    }
+
+    @Test
+    public void endOfDayTest(){
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime end = now.withHour(23).withMinute(59).withSecond(59).withNano(0);
+        System.out.println(end);
     }
 }
