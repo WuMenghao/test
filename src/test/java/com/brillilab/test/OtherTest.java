@@ -21,6 +21,7 @@ import java.security.Provider;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.*;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -430,5 +431,14 @@ public class OtherTest {
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime end = now.withHour(23).withMinute(59).withSecond(59).withNano(0);
         System.out.println(end);
+    }
+
+    @Test
+    public void calender(){
+        LocalDateTime now = LocalDateTime.now();
+        int monthValue = now.getMonthValue();
+        int dayOfMonth = now.getDayOfMonth();
+        int year = now.getYear();
+        System.out.printf("year:%d,month:%d,day:%d \t\n",year,monthValue,dayOfMonth);
     }
 }
