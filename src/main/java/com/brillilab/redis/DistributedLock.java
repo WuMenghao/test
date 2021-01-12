@@ -28,7 +28,7 @@ public class DistributedLock {
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
         config.setMaxIdle(10);
         config.setMaxTotal(200);
-        config.setMinIdle(10*1000);
+//        config.setMinIdle(10*1000);
         config.setTestOnReturn(true);
         jedisPool=new JedisPool(config,
                 "localhost",

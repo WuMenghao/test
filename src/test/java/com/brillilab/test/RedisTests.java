@@ -9,11 +9,13 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class RedisTests {
 
     private final String LOCK = "lock_test";
     private ThreadPoolExecutor threadPool;
+    private Integer count = 0;
 
     @Before
     public void prepareThreadPool(){
@@ -54,5 +56,40 @@ public class RedisTests {
         });
 
         threadPool.awaitTermination(50,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void redisLockTest2() throws InterruptedException {
+
+
+        for (int i=0;i<1000;i++){
+            threadPool.execute(() ->{
+                String lockVersion = DistributedLock.lock(LOCK);
+                System.out.println(count);
+                count++;
+                DistributedLock.unLock(LOCK, lockVersion);
+            });
+        }
+
+
+        threadPool.awaitTermination(50,TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void ReentrantLockTest2() throws InterruptedException {
+
+
+        ReentrantLock lock = new ReentrantLock();
+        for (int i=0;i<1000;i++){
+            threadPool.execute(() ->{
+                lock.lock();
+                System.out.println(count);
+                count++;
+                lock.unlock();
+            });
+        }
+
+
+        threadPool.awaitTermination(3,TimeUnit.SECONDS);
     }
 }

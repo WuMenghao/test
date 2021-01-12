@@ -8,6 +8,7 @@ import com.brillilab.utils.SecureUtils;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.junit.Assert;
 import org.junit.Test;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -441,4 +442,26 @@ public class OtherTest {
         int year = now.getYear();
         System.out.printf("year:%d,month:%d,day:%d \t\n",year,monthValue,dayOfMonth);
     }
+
+    @Test
+    public void suffix(){
+        String name = "jjj.pdf";
+        System.out.println(name.substring(name.lastIndexOf(".")));
+    }
+
+    // 亦或操作 ^
+    @Test
+    public void test22(){
+
+        int a = Integer.valueOf("100101100111101111111100001",2);
+        int b = Integer.valueOf("000000000000000010010110011",2);
+        int c = a ^ b;
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println("100101100111101111111100001");
+        System.out.println("000000000000000010010110011");
+        System.out.println(Integer.toBinaryString(c));
+    }
+
 }
