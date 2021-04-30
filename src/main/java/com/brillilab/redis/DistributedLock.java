@@ -1,7 +1,6 @@
 package com.brillilab.redis;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.RandomUtils;
 import org.apache.commons.math3.random.RandomGeneratorFactory;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.xmlbeans.impl.tool.CodeGenUtil;

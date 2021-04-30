@@ -10,7 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.InetAddress;
@@ -462,6 +462,37 @@ public class OtherTest {
         System.out.println("100101100111101111111100001");
         System.out.println("000000000000000010010110011");
         System.out.println(Integer.toBinaryString(c));
+    }
+
+    /**
+     * ArrayList序列化
+     *
+     */
+    @Test
+    public void test23(){
+        ArrayList<Integer> integers = new ArrayList<>();
+        for(int i=0;i<10;i++){
+            integers.add(i);
+        }
+
+        try (ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("/Users/menghaowu/Documents/temp/Object/test.temp"))){
+            outputStream.writeObject(integers);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream("/Users/menghaowu/Documents/temp/Object/test.temp"))){
+            Object o = inputStream.readObject();
+            System.out.println(o);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }
