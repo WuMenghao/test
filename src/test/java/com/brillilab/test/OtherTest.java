@@ -1,5 +1,7 @@
 package com.brillilab.test;
+import java.util.Date;
 
+import com.brillilab.alioss.AliSts;
 import com.brillilab.blockingQueue.Consumer;
 import com.brillilab.blockingQueue.Producer;
 import com.brillilab.utils.QRCodeEncoderUtils;
@@ -495,4 +497,36 @@ public class OtherTest {
         }
     }
 
+    // 引用传递与值传递
+    @Test
+    public void test24(){
+        int a = 1;
+        int b = 2;
+        change(a,b);
+        System.out.printf("a:%d,b:%d \n",a,b);
+    }
+
+    private void change(int a,int b){
+        int i=a;
+        a = b;
+        b = i;
+        System.out.printf("a:%d,b:%d \n",a,b);
+    }
+
+    // 引用传递与值传递
+    @Test
+    public void test25(){
+        AliSts aliSts = new AliSts();
+        aliSts.setAccessKeyId("aaaaaa");
+        aliSts.setAccessKeySecret("aaaaa");
+        aliSts.setSecurityToken("aaaaa");
+        aliSts.setExpireTime(new Date());
+        modify(aliSts);
+        System.out.println("aliSts:"+aliSts);
+    }
+
+    private void modify(AliSts aliSts){
+        aliSts = null;
+        System.out.println("aliSts:"+aliSts);
+    }
 }
