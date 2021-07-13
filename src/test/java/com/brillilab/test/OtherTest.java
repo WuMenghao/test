@@ -7,6 +7,9 @@ import com.brillilab.blockingQueue.Producer;
 import com.brillilab.utils.QRCodeEncoderUtils;
 import com.brillilab.utils.QuartzUtils;
 import com.brillilab.utils.SecureUtils;
+import com.sun.tools.attach.AttachNotSupportedException;
+import com.sun.tools.attach.VirtualMachine;
+import com.sun.tools.attach.VirtualMachineDescriptor;
 import org.apache.commons.codec.digest.Md5Crypt;
 import org.junit.Assert;
 import org.junit.Test;
@@ -528,5 +531,22 @@ public class OtherTest {
     private void modify(AliSts aliSts){
         aliSts = null;
         System.out.println("aliSts:"+aliSts);
+    }
+
+    // VirtualMachine Attach API
+    @Test
+    public void test26() throws IOException, AttachNotSupportedException {
+        for (VirtualMachineDescriptor descriptor : VirtualMachine.list()){
+
+            System.out.println(descriptor.id()+" "+descriptor.displayName());
+        }
+
+        //property
+        VirtualMachine attach = VirtualMachine.attach("69205");
+        Properties systemProperties = attach.getSystemProperties();
+        systemProperties.entrySet().forEach(e->{
+            System.out.println(e.getKey()+ " : "+ e.getValue());
+        });
+
     }
 }
